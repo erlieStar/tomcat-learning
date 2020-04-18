@@ -163,6 +163,7 @@ public final class ApplicationFilterChain implements FilterChain {
                     throw new ServletException(e.getMessage(), e);
             }
         } else {
+            // 执行这
             internalDoFilter(request,response);
         }
     }
@@ -190,6 +191,9 @@ public final class ApplicationFilterChain implements FilterChain {
                     Object[] args = new Object[]{req, res, this};
                     SecurityUtil.doAsPrivilege ("doFilter", filter, classType, args, principal);
                 } else {
+                    // 要想执行后续的filter会在这个filter的最后加上
+                    // chain.doFilter(request, response);
+                    // 于是又调到了这个类的doFilter方法
                     filter.doFilter(request, response, this);
                 }
             } catch (IOException | ServletException | RuntimeException e) {
@@ -203,6 +207,7 @@ public final class ApplicationFilterChain implements FilterChain {
         }
 
         // We fell off the end of the chain -- call the servlet instance
+        // 所有的拦截器都执行完了
         try {
             if (ApplicationDispatcher.WRAP_SAME_OBJECT) {
                 lastServicedRequest.set(request);
@@ -228,6 +233,7 @@ public final class ApplicationFilterChain implements FilterChain {
                                            args,
                                            principal);
             } else {
+                // 调用servlet的方法
                 servlet.service(request, response);
             }
         } catch (IOException | ServletException | RuntimeException e) {

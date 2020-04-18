@@ -725,6 +725,7 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
         try {
             // for includes/forwards
             if ((servlet != null) && (filterChain != null)) {
+                // 执行filter和servlet
                filterChain.doFilter(request, response);
              }
             // Servlet Service Method is called by the FilterChain

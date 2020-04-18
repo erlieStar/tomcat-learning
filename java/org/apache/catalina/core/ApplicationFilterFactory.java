@@ -76,6 +76,7 @@ public final class ApplicationFilterFactory {
             filterChain = new ApplicationFilterChain();
         }
 
+        // 把待执行的servlet放到链中
         filterChain.setServlet(servlet);
         filterChain.setServletSupportsAsync(wrapper.isAsyncSupported());
 
